@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hemapriya Resin Art Studio</title>
+<style>
+*{box-sizing:border-box;}
+body{margin:0; font-family:'Segoe UI',Arial; background:#f9f0ff; display:flex; justify-content:center;}
+.page{display:none; width:100%; max-width:430px; background:white; min-height:100vh; padding:18px;}
+.page.active{display:block; animation:fade 0.3s;}
+@keyframes fade{from{opacity:0} to{opacity:1}}
+/* COMMON */
+.btn{width:100%; background:#4B2063; color:white; border:none; padding:15px; border-radius:30px; margin-top:14px; font-size:16px; font-weight:bold; cursor:pointer;}
+.btn2{background:white; color:#4B2063; border:2px solid #4B2063;}
+.top{ text-align:center; padding-top:10px;}
+.logo-circle{width:140px; height:140px; border:2px solid #4B2063; border-radius:50%; margin:0 auto; display:flex; align-items:center; justify-content:center; flex-direction:column;}
+.logo-circle h1{font-family:cursive; color:#4B2063; margin:0; font-size:28px;}
+.gold-card{border:2.5px solid #C9A86C; border-radius:22px; padding:22px; text-align:center; margin-top:15px;}
+.contact-item{display:flex; align-items:center; background:#f5e6ff; margin:10px 0; padding:13px 18px; border-radius:30px; font-size:14px;}
+.contact-item b{color:#4B2063; margin-left:10px;}
+.price-head{background:#B89ACB; color:white; text-align:center; padding:12px; font-size:22px; font-weight:bold; letter-spacing:1px; border-radius:8px; margin:15px 0;}
+.product{ display:flex; justify-content:space-between; align-items:center; padding:13px 15px; border:1px solid #e8d5f5; border-radius:12px; margin-bottom:8px; cursor:pointer;}
+.product.selected{background:#efe0ff; border-color:#4B2063; border-width:2px;}
+.product b{color:#4B2063;}
+.input{width:100%; padding:13px; margin:7px 0; border:1.5px solid #ddd; border-radius:12px; font-size:14px;}
+.cartBox{background:#f8f0ff; padding:15px; border-radius:12px; min-height:60px;}
+.confirm{display:none; background:#eaffea; border:2px solid #2e8b2e; border-radius:15px; padding:25px; text-align:center; margin-top:20px;}
+.myBox{background:#fff8fd; border:1.5px dashed #B89ACB; padding:12px; border-radius:12px; font-size:13px; line-height:1.7; margin-top:12px;}
+</style>
+</head>
+<body>
+
+<!-- ========== PAGE 1 - FIRST PAGE ========== -->
+<div id="p1" class="page active">
+  <div class="top">
+    <div class="logo-circle">
+      <h1>Hemapriya</h1>
+      <p style="font-size:9px; letter-spacing:2px; color:#4B2063; margin:0;">RESIN ART STUDIO</p>
+      <span style="font-size:20px;">🌸</span>
+    </div>
+  </div>
+
+  <div class="gold-card">
+    <h2 style="color:#C9A86C; margin:0;">Crafted by</h2>
+    <h1 style="margin:5px 0; font-size:36px; letter-spacing:1px;">HEMAPRIYA</h1>
+    <p style="margin:0; letter-spacing:2px; font-size:12px;">HANDMADE WITH LOVE</p>
+    <p style="margin-top:10px;">💜</p>
+  </div>
+
+  <div style="margin-top:20px;">
+    <div class="contact-item">📱 <b>WhatsApp : 97477 36444</b></div>
+    <div class="contact-item">📷 <b>Instagram : @craftedbyhemapriya</b></div>
+    <div class="contact-item">📞 <b>Call : 97477 36444</b></div>
+    <div class="contact-item">📍 <b>Chebrolu, Andhra Pradesh</b></div>
+  </div>
+
+  <p style="text-align:center; color:#c15c8a; margin-top:22px; font-size:14px;">Thank you for supporting handmade ♡</p>
+  <p style="text-align:center; font-size:10px; color:#999; letter-spacing:1px;">CUSTOMISED GIFTS ♡ FRAMES ♡ ALBUMS ♡ KEEPSAKES</p>
+
+  <button class="btn" onclick="showPage('p2')">View Price List → NEXT</button>
+</div>
+
+<!-- ========== PAGE 2 - SECOND PAGE ========== -->
+<div id="p2" class="page">
+  <h2 style="text-align:center; color:#4B2063; margin:0;">Hemapriya Resin Art Studio</h2>
+  <p style="text-align:center; font-size:10px; color:#999; letter-spacing:2px;">• CRAFTING MEMORIES IN RESIN •</p>
+
+  <div class="price-head">PRICE LIST</div>
+  <p style="text-align:center; font-size:12px; color:#888;">Click on item to select for order</p>
+
+  <div id="list"></div>
+
+  <div style="background:#B89ACB; color:white; text-align:center; padding:10px; border-radius:10px; margin-top:15px; font-size:11px;">
+    ♡ Handmade with love | ✨ Customisation Available | 💎 Premium Quality
+  </div>
+
+  <button class="btn" onclick="goCart()">Proceed to Order (<span id="cCount">0</span> items) →</button>
+  <button class="btn btn2" onclick="showPage('p1')">← Back to Home</button>
+</div>
+
+<!-- ========== PAGE 3 - THIRD PAGE ========== -->
+<div id="p3" class="page">
+  <h2 style="color:#4B2063; text-align:center; margin:0;">🛒 Your Order</h2>
+
+  <div class="cartBox" id="cartBox">No items selected yet</div>
+  <h3 style="text-align:right; color:#4B2063;">Total: ₹<span id="tot">0</span>/-</h3>
+
+  <hr style="border:none; border-top:1px dashed #ddd; margin:15px 0;">
+
+  <h3 style="color:#4B2063; margin:10px 0;">Customer Details</h3>
+  <input class="input" id="cName" placeholder="Full Name *">
+  <input class="input" id="cPhone" placeholder="Phone Number *">
+  <textarea class="input" id="cAddr" placeholder="Full Delivery Address *"></textarea>
+
+  <h3 style="color:#4B2063; margin:10px 0;">Payment</h3>
+  <select class="input" id="pay">
+    <option>UPI / GPay / PhonePe - 97477 36444</option>
+    <option>Cash on Delivery (COD)</option>
+  </select>
+
+  <div class="myBox">
+    <b>My Details for Payment / Contact:</b><br>
+    👩‍🎨 Name: Hemapriya<br>
+    💜 UPI: 9747736444@okaxis (Example)<br>
+    📱 WhatsApp: 97477 36444<br>
+    📷 Instagram: @craftedbyhemapriya<br>
+    📍 Location: Chebrolu, AP
+  </div>
+
+  <button class="btn" onclick="orderNow()">Proceed to Pay → Order Confirmed</button>
+
+  <div id="done" class="confirm">
+    <h2 style="color:green; margin:0;">✅ Order Confirmed!</h2>
+    <p>Thank you <b id="tName"></b> 💜</p>
+    <p>Amount: ₹<span id="fTot"></span>/-</p>
+    <p>Order ID: <b>#HEMA<span id="oId"></span></b></p>
+    <p style="font-size:12px;">We will contact you on WhatsApp soon for payment confirmation & delivery.</p>
+  </div>
+
+  <button class="btn btn2" onclick="showPage('p2')">← Back to Price List</button>
+</div>
+
+<script>
+const products=[
+{name:"Alphabet Keychain",price:99},
+{name:"Name Alphabet Keychain",price:150},
+{name:"Circle Keychain",price:150},
+{name:"Bookmark Small",price:120},
+{name:"Bookmark Large",price:180},
+{name:"Pendant",price:200},
+{name:"Heart Frame",price:300},
+{name:"Pen",price:200},
+{name:"Bangles (1 Pair)",price:350},
+{name:"Tray (10 Inch)",price:500},
+{name:"Tray (12 Inch)",price:700},
+{name:"Frame (4 Inch)",price:250},
+{name:"Frame (6 Inch)",price:350},
+{name:"Frame (8 Inch)",price:450},
+{name:"Wall Clock (12 Inch) Starting",price:900},
+];
+let cart=[];
+function render(){
+ let h=""; products.forEach((p,i)=>{
+  let sel=cart.find(c=>c.name==p.name)?'selected':'';
+  h+=`<div class="product ${sel}" onclick="toggle(${i})"><span>${p.name}</span><b>${p.price}/-</b></div>`;
+ });
+ document.getElementById('list').innerHTML=h;
+ document.getElementById('cCount').innerText=cart.length;
+}
+function toggle(i){
+ let p=products[i]; let idx=cart.findIndex(c=>c.name==p.name);
+ if(idx>=0) cart.splice(idx,1); else cart.push(p);
+ render();
+}
+function goCart(){
+ if(cart.length==0){alert("Please select at least 1 item in Price List!"); return;}
+ let html=""; let tot=0;
+ cart.forEach(c=>{ html+=`• ${c.name} - ₹${c.price}/-<br>`; tot+=c.price; });
+ document.getElementById('cartBox').innerHTML=html;
+ document.getElementById('tot').innerText=tot;
+ showPage('p3');
+}
+function orderNow(){
+ let n=document.getElementById('cName').value;
+ let ph=document.getElementById('cPhone').value;
+ let ad=document.getElementById('cAddr').value;
+ if(!n||!ph||!ad){alert("Please fill Name, Phone, Address!"); return;}
+ document.getElementById('tName').innerText=n;
+ document.getElementById('fTot').innerText=document.getElementById('tot').innerText;
+ document.getElementById('oId').innerText=Math.floor(Math.random()*9000+1000);
+ document.getElementById('done').style.display="block";
+ let msg=`*NEW ORDER - Hemapriya Resin*%0AName:${n}%0APhone:${ph}%0AAddress:${ad}%0AItems:${cart.map(c=>c.name).join(', ')}%0ATotal:₹${document.getElementById('tot').innerText}%0APayment:${document.getElementById('pay').value}`;
+ setTimeout(()=>window.open(`https://wa.me/919747736444?text=${msg}`,'_blank'),1200);
+ window.scrollTo(0,document.body.scrollHeight);
+}
+function showPage(id){
+ document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+ document.getElementById(id).classList.add('active');
+ window.scrollTo(0,0);
+}
+render();
+</script>
+</body>
+</html>
